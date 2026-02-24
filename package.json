@@ -22,6 +22,7 @@
     "@codemirror/view": "^6.39.13",
     "@iconify/react": "^6.0.2",
     "@mermaid-js/layout-elk": "^0.2.0",
+    "@replit/codemirror-vim": "^6.3.0",
     "mermaid": "^11.12.3",
     "prismjs": "^1.30.0",
     "react": "^19.2.0",

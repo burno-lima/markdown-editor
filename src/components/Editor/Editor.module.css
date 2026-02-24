@@ -214,3 +214,60 @@
   gap: 8px;
   width: 100%;
 }
+
+/* Vim mode toggle */
+.vimToggle {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  opacity: 0.5;
+  transition: all var(--transition-fast);
+}
+
+.vimToggle:hover {
+  opacity: 1;
+  color: var(--text-secondary);
+}
+
+.vimActive {
+  opacity: 1;
+  color: var(--accent-primary);
+}
+
+.vimActive:hover {
+  color: var(--accent-hover);
+}
+
+/* Vim block cursor & command panel (global since CM generates these classes) */
+.cmEditor :global(.cm-vim-panel) {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-top: 1px solid var(--border-color);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.cmEditor :global(.cm-vim-panel) input {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 1px 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.cmEditor :global(.cm-fat-cursor) {
+  background-color: var(--accent-primary) !important;
+  opacity: 0.7;
+}
+
+.cmEditor :global(.cm-cursor-primary.cm-fat-cursor) {
+  background-color: var(--accent-primary) !important;
+}

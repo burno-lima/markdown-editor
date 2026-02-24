@@ -20,6 +20,13 @@ function getInitialTheme(): Theme {
   return 'dark';
 }
 
+function getInitialVimMode(): boolean {
+  try {
+    return localStorage.getItem('markdown-editor-vim-mode') === 'true';
+  } catch { /* ignore */ }
+  return false;
+}
+
 // ── Mock data for development/preview ──
 const MOCK_ROOT_ENTRY: FileEntry = {
   name: 'my-project',
@@ -82,6 +89,7 @@ export function App() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [showFind, setShowFind] = useState(false);
+  const [vimMode, setVimMode] = useState(getInitialVimMode);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [scratchContent, setScratchContent] = useState('');
   const [requestNewFile, setRequestNewFile] = useState(false);
@@ -91,6 +99,11 @@ export function App() {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('markdown-editor-theme', theme);
   }, [theme]);
+
+  // Persist vim mode preference
+  useEffect(() => {
+    localStorage.setItem('markdown-editor-vim-mode', String(vimMode));
+  }, [vimMode]);
 
   // Auto-refresh file tree when window gains focus (to detect external file changes)
   useEffect(() => {
@@ -355,6 +368,8 @@ export function App() {
             content={currentContent}
             viewMode={viewMode}
             theme={theme}
+            vimMode={vimMode}
+            onVimModeChange={setVimMode}
             onChange={handleContentChange}
             onInsertRef={insertRef}
             showFind={showFind}

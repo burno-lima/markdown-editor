@@ -7,6 +7,7 @@ import { languages } from '@codemirror/language-data';
 import { syntaxHighlighting, HighlightStyle } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 import { searchKeymap } from '@codemirror/search';
+import { vim } from '@replit/codemirror-vim';
 import type { ViewMode } from '../../types';
 import { getWordCount, getCharCount, getFileSize, getReadTime } from '../../utils/markdown';
 import { MarkdownPreview } from './MarkdownPreview';
@@ -60,17 +61,20 @@ interface EditorProps {
   content: string;
   viewMode: ViewMode;
   theme: 'light' | 'dark';
+  vimMode: boolean;
+  onVimModeChange: (enabled: boolean) => void;
   onChange: (content: string) => void;
   onInsertRef: React.MutableRefObject<((text: string) => void) | null>;
   showFind: boolean;
   onCloseFind: () => void;
 }
 
-export function Editor({ content, viewMode, theme, onChange, onInsertRef, showFind, onCloseFind }: EditorProps) {
+export function Editor({ content, viewMode, theme, vimMode, onVimModeChange, onChange, onInsertRef, showFind, onCloseFind }: EditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
   const highlightCompartment = useRef(new Compartment());
+  const vimCompartment = useRef(new Compartment());
   const [findText, setFindText] = useState('');
   const [replaceText, setReplaceText] = useState('');
   const [matchCase, setMatchCase] = useState(false);
@@ -98,6 +102,7 @@ export function Editor({ content, viewMode, theme, onChange, onInsertRef, showFi
         history(),
         markdown({ base: markdownLanguage, codeLanguages: languages }),
         highlightCompartment.current.of(syntaxHighlighting(initialStyle)),
+        vimCompartment.current.of(vimMode ? vim() : []),
         keymap.of([
           ...defaultKeymap,
           ...historyKeymap,
@@ -168,6 +173,16 @@ export function Editor({ content, viewMode, theme, onChange, onInsertRef, showFi
       effects: highlightCompartment.current.reconfigure(syntaxHighlighting(style)),
     });
   }, [theme]);
+
+  // Toggle vim mode
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+
+    view.dispatch({
+      effects: vimCompartment.current.reconfigure(vimMode ? vim() : []),
+    });
+  }, [vimMode]);
 
   // Sync external content changes
   useEffect(() => {
@@ -444,6 +459,14 @@ export function Editor({ content, viewMode, theme, onChange, onInsertRef, showFi
         <span className={styles.statusItem}>{getFileSize(content)}</span>
         <span className={styles.statusDivider} />
         <span className={styles.statusItem}>{getReadTime(content)} read</span>
+        <span className={styles.statusDivider} />
+        <button
+          className={`${styles.statusItem} ${styles.vimToggle} ${vimMode ? styles.vimActive : ''}`}
+          onClick={() => onVimModeChange(!vimMode)}
+          title={vimMode ? 'Disable Vim Mode' : 'Enable Vim Mode'}
+        >
+          VIM
+        </button>
         <span className={styles.statusDivider} />
         <span className={styles.statusItem}>Ln <span className={styles.statusHighlight}>{currentLine}</span></span>
       </div>
