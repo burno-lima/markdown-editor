@@ -5,6 +5,7 @@ import { generateCodeBlock, generateTable } from '../../utils/markdown';
 import { CodeBlockDialog } from './CodeBlockDialog';
 import { TableDialog } from './TableDialog';
 import { ClaudeAssistDialog } from './ClaudeAssistDialog';
+import { ClaudeIcon } from './ClaudeIcon';
 import styles from './Toolbar.module.css';
 
 interface ToolbarProps {
@@ -80,70 +81,85 @@ export function Toolbar({
         </div>
       )}
 
-      {/* Toolbar */}
-      <div className={styles.toolbar}>
-        <div className={styles.group}>
+      {/* Top bar - minimal with view controls */}
+      <div className={styles.topBar}>
+        <div className={styles.topBarLeft}>
+          <span className={styles.appTitle}>Markdown Editor</span>
+        </div>
+        <div className={styles.topBarRight}>
+          {/* View mode toggle */}
+          <div className={styles.viewToggle}>
+            <button
+              className={`${styles.viewToggleBtn} ${viewMode === 'editor' ? styles.active : ''}`}
+              onClick={() => onViewModeChange('editor')}
+              title="Editor Mode"
+            >
+              <Icon icon="codicon:edit" width={14} />
+              <span>Edit</span>
+            </button>
+            <button
+              className={`${styles.viewToggleBtn} ${viewMode === 'preview' ? styles.active : ''}`}
+              onClick={() => onViewModeChange('preview')}
+              title="Preview Mode"
+            >
+              <Icon icon="codicon:eye" width={14} />
+              <span>Preview</span>
+            </button>
+          </div>
+
+          {/* Theme toggle */}
           <button
-            className={styles.button}
+            className={styles.themeToggle}
+            onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
+            title={theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
+          >
+            <Icon icon={theme === 'dark' ? 'ph:sun-bold' : 'ph:moon-bold'} width={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Floating Action Bar - Right side */}
+      <div className={styles.floatingBar}>
+        {/* Insert Tools */}
+        <div className={styles.floatingGroup}>
+          <button
+            className={styles.floatingBtn}
             onClick={() => setShowCodeDialog(true)}
             title="Insert Code Block"
           >
-            <Icon icon="codicon:code" width={16} />
-            <span className={styles.buttonLabel}>Code</span>
+            <Icon icon="codicon:code" width={18} />
+            <span className={styles.floatingLabel}>Code</span>
           </button>
 
           <button
-            className={styles.button}
+            className={styles.floatingBtn}
             onClick={() => setShowTableDialog(true)}
             title="Insert Table"
           >
-            <Icon icon="codicon:table" width={16} />
-            <span className={styles.buttonLabel}>Table</span>
+            <Icon icon="codicon:table" width={18} />
+            <span className={styles.floatingLabel}>Table</span>
           </button>
 
           <button
-            className={`${styles.button} ${styles.claudeButton}`}
-            onClick={() => setShowClaudeDialog(true)}
-            title="Claude Assist"
+            className={styles.floatingBtn}
+            onClick={onFind}
+            title="Find & Replace (Ctrl+F)"
           >
-            <Icon icon="simple-icons:anthropic" width={16} />
-            <span className={styles.buttonLabel}>Claude</span>
+            <Icon icon="codicon:search" width={18} />
+            <span className={styles.floatingLabel}>Find</span>
           </button>
         </div>
 
-        <div className={styles.separator} />
+        <div className={styles.floatingDivider} />
 
-        <div className={styles.group}>
-          <button className={styles.button} onClick={onFind} title="Find & Replace (Ctrl+F)">
-            <Icon icon="codicon:search" width={16} />
-            <span className={styles.buttonLabel}>Find</span>
-          </button>
-        </div>
-
-        <div className={styles.spacer} />
-
-        {/* Preview toggle */}
+        {/* Claude AI - Special Button */}
         <button
-          className={`${styles.button} ${viewMode === 'preview' ? styles.active : ''}`}
-          onClick={toggleViewMode}
-          title={viewMode === 'editor' ? 'Show Preview' : 'Show Editor'}
+          className={styles.claudeFloatingBtn}
+          onClick={() => setShowClaudeDialog(true)}
+          title="Claude AI Assistant"
         >
-          <Icon
-            icon={viewMode === 'preview' ? 'codicon:eye' : 'codicon:eye-closed'}
-            width={18}
-          />
-        </button>
-
-        {/* Theme toggle */}
-        <button
-          className={styles.button}
-          onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
-          title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-        >
-          <Icon
-            icon={theme === 'dark' ? 'codicon:color-mode' : 'codicon:color-mode'}
-            width={18}
-          />
+          <ClaudeIcon width={20} height={20} />
+          <span className={styles.claudeLabel}>Claude</span>
         </button>
       </div>
 

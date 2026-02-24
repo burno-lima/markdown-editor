@@ -116,11 +116,7 @@ export function Sidebar({ rootEntry, activeFilePath, onOpenDirectory, onFileSele
           />
         ) : (
           <div className={styles.empty}>
-            <Icon icon="codicon:folder" width={32} style={{ opacity: 0.4 }} />
-            <p>No folder opened</p>
-            <button className={styles.openButton} onClick={onOpenDirectory}>
-              Open Folder
-            </button>
+            <p>Open a folder to see files</p>
           </div>
         )}
       </div>

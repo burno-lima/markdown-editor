@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import type { ClaudeAssistAction } from '../../types';
 import { callClaudeAssist, getActionLabel } from '../../utils/claude';
 import { isElectron } from '../../utils/fileSystem';
+import { ClaudeIcon } from './ClaudeIcon';
 import styles from './Toolbar.module.css';
 
 const CLAUDE_ACTIONS: { id: ClaudeAssistAction; icon: string; title: string; description: string }[] = [
@@ -100,7 +101,7 @@ export function ClaudeAssistDialog({ content, fileName, onInsertResult, onCancel
       <div className={styles.overlay} onClick={onCancel}>
         <div className={`${styles.dialog} ${styles.claudeDialog} ${styles.claudeResultDialog}`} onClick={e => e.stopPropagation()}>
           <div className={styles.claudeDialogHeader}>
-            <Icon icon="simple-icons:anthropic" width={20} className={styles.claudeHeaderIcon} />
+            <ClaudeIcon width={22} height={22} className={styles.claudeHeaderIcon} />
             <span className={styles.dialogTitle} style={{ marginBottom: 0 }}>
               {activeAction ? getActionLabel(activeAction) : 'Claude Assist'}
             </span>
@@ -148,7 +149,7 @@ export function ClaudeAssistDialog({ content, fileName, onInsertResult, onCancel
       <div className={styles.overlay}>
         <div className={`${styles.dialog} ${styles.claudeDialog}`} onClick={e => e.stopPropagation()}>
           <div className={styles.claudeDialogHeader}>
-            <Icon icon="simple-icons:anthropic" width={20} className={styles.claudeHeaderIcon} />
+            <ClaudeIcon width={22} height={22} className={styles.claudeHeaderIcon} />
             <span className={styles.dialogTitle} style={{ marginBottom: 0 }}>Claude Assist</span>
           </div>
           <div className={styles.claudeLoading}>
@@ -169,7 +170,7 @@ export function ClaudeAssistDialog({ content, fileName, onInsertResult, onCancel
     <div className={styles.overlay} onClick={onCancel}>
       <div className={`${styles.dialog} ${styles.claudeDialog}`} onClick={e => e.stopPropagation()}>
         <div className={styles.claudeDialogHeader}>
-          <Icon icon="simple-icons:anthropic" width={20} className={styles.claudeHeaderIcon} />
+          <ClaudeIcon width={22} height={22} className={styles.claudeHeaderIcon} />
           <span className={styles.dialogTitle} style={{ marginBottom: 0 }}>Claude Assist</span>
         </div>
         <p className={styles.claudeDialogSubtitle}>

@@ -433,12 +433,19 @@ export function Editor({ content, viewMode, theme, onChange, onInsertRef, showFi
 
       {/* Status Bar */}
       <div className={styles.statusBar}>
-        <span className={styles.statusItem}>Words: {getWordCount(content)}</span>
-        <span className={styles.statusItem}>Characters: {getCharCount(content)}</span>
+        <span className={styles.statusItem}>
+          <span className={styles.statusHighlight}>{getWordCount(content)}</span> words
+        </span>
+        <span className={styles.statusDivider} />
+        <span className={styles.statusItem}>
+          <span className={styles.statusHighlight}>{getCharCount(content)}</span> chars
+        </span>
         <div className={styles.statusSpacer} />
-        <span className={styles.statusItem}>Size: {getFileSize(content)}</span>
-        <span className={styles.statusItem}>Read time: {getReadTime(content)}</span>
-        <span className={styles.statusItem}>Line: {currentLine}</span>
+        <span className={styles.statusItem}>{getFileSize(content)}</span>
+        <span className={styles.statusDivider} />
+        <span className={styles.statusItem}>{getReadTime(content)} read</span>
+        <span className={styles.statusDivider} />
+        <span className={styles.statusItem}>Ln <span className={styles.statusHighlight}>{currentLine}</span></span>
       </div>
     </div>
   );

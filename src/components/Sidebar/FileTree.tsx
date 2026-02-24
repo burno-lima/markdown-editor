@@ -26,7 +26,7 @@ export function FileTree({ entry, depth = 0, activeFilePath, onFileSelect, onDir
         title={entry.path}
       >
         <span className={styles.treeItemIcon}>
-          <Icon icon={iconName} width={16} />
+          <Icon icon={iconName} width={18} />
         </span>
         <span className={styles.treeItemName}>{entry.name}</span>
       </div>
@@ -48,12 +48,13 @@ export function FileTree({ entry, depth = 0, activeFilePath, onFileSelect, onDir
         }}
       >
         <span className={`${styles.treeItemIcon} ${styles.chevron} ${expanded ? styles.open : ''}`}>
-          <Icon icon="codicon:chevron-right" width={14} />
+          <Icon icon="lucide:chevron-right" width={14} />
         </span>
         <span className={styles.treeItemIcon}>
           <Icon
-            icon={expanded ? 'vscode-icons:default-folder-opened' : 'vscode-icons:default-folder'}
-            width={16}
+            icon={expanded ? 'tabler:folder-open' : 'tabler:folder-filled'}
+            width={18}
+            className={styles.folderIcon}
           />
         </span>
         <span className={styles.treeItemName}>{entry.name}</span>
@@ -74,7 +75,7 @@ export function FileTree({ entry, depth = 0, activeFilePath, onFileSelect, onDir
 
 function getFileIcon(name: string): string {
   const lower = name.toLowerCase();
-  if (/\.(md|mdx|markdown)$/.test(lower)) return 'vscode-icons:file-type-markdown';
+  if (/\.(md|mdx|markdown)$/.test(lower)) return 'lucide:file-text';
   if (/\.tsx$/.test(lower)) return 'vscode-icons:file-type-reactts';
   if (/\.ts$/.test(lower)) return 'vscode-icons:file-type-typescript';
   if (/\.jsx$/.test(lower)) return 'vscode-icons:file-type-reactjs';
@@ -103,5 +104,9 @@ function getFileIcon(name: string): string {
   if (/\.txt$/.test(lower)) return 'vscode-icons:file-type-text';
   if (/\.pdf$/.test(lower)) return 'vscode-icons:file-type-pdf';
   if (/\.lock$/.test(lower)) return 'vscode-icons:file-type-lock';
+  if (/^license$/i.test(lower)) return 'vscode-icons:file-type-license';
+  if (/^readme/i.test(lower)) return 'vscode-icons:file-type-readme';
+  if (/^contributing/i.test(lower)) return 'vscode-icons:file-type-contributing';
+  if (/^changelog/i.test(lower)) return 'vscode-icons:file-type-changelog';
   return 'vscode-icons:default-file';
 }
